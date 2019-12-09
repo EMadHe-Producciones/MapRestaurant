@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/menu_aplicacion_mapares"
+        android:enabled="true"
+        android:icon="@drawable/cutlery"
+        android:title="Restaurantes" />
+
+    <item
+        android:id="@+id/menu_aplicacion_home"
+        android:enabled="true"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Inicio" />
+
+    <item
+        android:id="@+id/menu_aplicacion_about"
+        android:enabled="true"
+        android:icon="@drawable/about"
+        android:title="About Map Restaurant" />
+
+</menu>
