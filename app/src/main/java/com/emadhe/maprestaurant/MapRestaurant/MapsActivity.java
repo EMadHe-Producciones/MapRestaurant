@@ -9,16 +9,21 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.emadhe.maprestaurant.Model.Feature;
 import com.emadhe.maprestaurant.R;
 import com.emadhe.maprestaurant.Api.ApiClient;
 import com.emadhe.maprestaurant.Api.RetrofitClient;
 import com.emadhe.maprestaurant.Model.Response;
+import com.emadhe.maprestaurant.db.Database;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -53,32 +58,13 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
     public void onMapReady (GoogleMap googleMap) {
         mMap = googleMap;
 
-        ApiClient api = RetrofitClient.MapBoxApi().create(ApiClient.class);
-        Call<Response> responseCall = api.getRestaurants(10, TOKEN);
-        responseCall.enqueue(new Callback<Response>() {
-            @Override
-            public void onResponse(@NonNull Call<Response> call, @NonNull retrofit2.Response<Response> response) {
-                Log.d("call", call.toString());
-                if(response.code() == 200){
-                    if(response.body() != null){
-                        for (int i = 0; i<response.body().features.size();i++){
-                            //Coordenadas en latitud y longitud
-                            LatLng sydney = new LatLng(response.body().features.get(i).getCenter().get(1), response.body().features.get(i).getCenter().get(0));
-                            mMap.addMarker(new MarkerOptions().position(sydney).title(response.body().features.get(i).getPlaceName()));
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-                        }
-                    }
-                }
-            }
-            @Override
-            public void onFailure(@NonNull Call<Response> call,@NonNull Throwable t) {
-                Log.d("call", call.toString());
-                Log.d("error", t.getMessage());
-
-            }
-        });
-
-
-
+        List<Feature> coordenadas = new ArrayList<>();
+        coordenadas.addAll(Database.getInstance(getActivity().getApplicationContext()).restaurantsDAO().seletResponse());
+        for (int i = 0; i<coordenadas.size();i++){
+            //Coordenadas en latitud y longitud
+            LatLng sydney = new LatLng(coordenadas.get(i).getCenter().get(1), coordenadas.get(i).getCenter().get(0));
+            mMap.addMarker(new MarkerOptions().position(sydney).title(coordenadas.get(i).getPlaceName()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        }
     }
 }

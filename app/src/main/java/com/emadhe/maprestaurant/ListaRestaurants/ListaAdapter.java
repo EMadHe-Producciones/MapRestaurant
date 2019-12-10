@@ -26,9 +26,10 @@ public class ListaAdapter extends RecyclerView.Adapter<ListaAdapter.HolderLista>
         this.context = c;
     }
 
-    public void addAllLugares(Feature featureList){
-        dataset.add(featureList);
-        notifyItemInserted(dataset.size());
+    public void addAllLugares(List<Feature> featureList){
+        dataset.clear();
+        dataset.addAll(featureList);
+        notifyDataSetChanged();
     }
 
     @NonNull

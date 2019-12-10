@@ -18,6 +18,7 @@ import com.emadhe.maprestaurant.Api.ApiClient;
 import com.emadhe.maprestaurant.Api.RetrofitClient;
 import com.emadhe.maprestaurant.Model.Response;
 import com.emadhe.maprestaurant.Model.Feature;
+import com.emadhe.maprestaurant.db.Database;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,9 +60,15 @@ public class Home extends Fragment {
                 Log.d("call", call.toString());
                 if(response.code() == 200){
                     if(response.body() != null){
-                        for (int i = 0; i<response.body().features.size();i++){
-                            adapter.addAllLugares(feature = response.body().features.get(i));
+
+                        try {
+                            for (int i = 0; i<response.body().features.size();i++){
+                                Database.getInstance(getActivity().getApplicationContext()).restaurantsDAO().insertRestanurant(feature = response.body().features.get(i));
+                            }
+                        }catch (Exception ex){
+                            Log.d("ex", ex.getMessage());
                         }
+
                     }
                 }
             }
@@ -72,6 +79,8 @@ public class Home extends Fragment {
 
             }
         });
+
+        adapter.addAllLugares(Database.getInstance(getActivity().getApplicationContext()).restaurantsDAO().seletResponse());
         return view;
     }
 

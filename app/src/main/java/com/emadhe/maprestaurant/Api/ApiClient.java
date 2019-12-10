@@ -10,8 +10,7 @@ import retrofit2.http.Query;
 
 public interface ApiClient {
 
-    @GET("mexico_restaurantes.json")
-    //Asegurarse que el call sea de retrofit, porque hay otras librerias que son call y te dara error
+    @GET("Nayarit_restaurantes.json")
     Call<Response> getRestaurants(@Query("limit") int limit, @Query("access_token") String token);
 
 }

@@ -6,6 +6,8 @@ import androidx.room.Query;
 
 import com.emadhe.maprestaurant.Model.Feature;
 
+import java.util.List;
+
 @Dao
 public interface RestaurantsDAO {
 
@@ -13,5 +15,5 @@ public interface RestaurantsDAO {
     void insertRestanurant(Feature feature);
 
     @Query("SELECT * FROM features")
-    Feature seletResponse();
+    List<Feature> seletResponse();
 }

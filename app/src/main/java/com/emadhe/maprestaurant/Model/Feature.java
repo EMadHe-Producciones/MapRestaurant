@@ -6,7 +6,9 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
+import com.emadhe.maprestaurant.db.Converter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -42,7 +44,8 @@ public class Feature {
     @Expose
     private String placeName;
 
-    @Ignore
+    @TypeConverters(Converter.class)
+    @ColumnInfo(name = "center")
     @SerializedName("center")
     @Expose
     private List<Double> center;
